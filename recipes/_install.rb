@@ -10,6 +10,6 @@ cookbook_file "/etc/httpd/conf.d/aqha-example-web.conf" do
 end
 
 service "httpd" do
-  action :enable
+  action %i[enable start]
 end
 
