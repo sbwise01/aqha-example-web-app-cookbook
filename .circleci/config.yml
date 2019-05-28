@@ -3,7 +3,7 @@ jobs:
  build:
    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
    docker:
-     - image: circleci/circleci/ruby:2.4
+     - image: circleci/ruby:2.4
    steps:
      - checkout
      - run:
