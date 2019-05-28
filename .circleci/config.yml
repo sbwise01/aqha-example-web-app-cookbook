@@ -1,6 +1,6 @@
 version: 2.0
 jobs:
- test:
+ build:
    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
    docker:
      - image: circleci/circleci/ruby:2.4
