@@ -1,9 +1,9 @@
 version: 2.0
 jobs:
- build:
+ test:
    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
    docker:
-     - image: circleci/node:10-browsers
+     - image: circleci/circleci/ruby:2.4
    steps:
      - checkout
      - run:
@@ -12,9 +12,13 @@ jobs:
            echo 'Hello World!'
            echo 'This is the delivery pipeline'
      - run:
+         name: Get Dependencies
+         command: |
+           bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without=vagrant
+     - run:
          name: Code Has Arrived
          command: |
-           ls -al
+           ls -alR
            echo '^^^That should look familiar^^^'
      - run:
          name: Running in a Unique Container
