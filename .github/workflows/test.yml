@@ -8,6 +8,7 @@ jobs:
   kitchen-tests:
     container:
       image: cincproject/workstation:latest
+    runs-on: [self-hosted, linux]
     strategy:
       fail-fast: false
     env:
