@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  kitchen-tests:
+    container:
+      image: cincproject/workstation:latest
+    runs-on: [self-hosted, linux]
+    strategy:
+      fail-fast: false
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      KITCHEN_YAML: .kitchen.ec2.yml
+      KITCHEN_TEST_SUBNET_ID: subnet-447b2523
+    name: Kitchen Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: List Kitchen tests
+        id: kitchen-list
+        run: kitchen list
+      - name: Run Kitchen test
+        id: kitchen-test
+        run: kitchen verify bake-centos-7
+      - name: KP
+        id: kitchen-cleanup
+        run: kitchen destroy bake-centos-7
