@@ -19,9 +19,6 @@ jobs:
     name: Kitchen Test
     steps:
       - uses: actions/checkout@v2
-      - name: List Kitchen tests
-        id: kitchen-list
-        run: kitchen list
       - name: Run Kitchen test
         id: kitchen-test
         run: kitchen verify bake-centos-7
