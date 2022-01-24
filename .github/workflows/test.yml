@@ -22,3 +22,9 @@ jobs:
       - name: List Kitchen tests
         id: kitchen-list
         run: kitchen list
+      - name: Run Kitchen test
+        id: kitchen-test
+        run: kitchen verify bake-centos-7
+      - name: KP
+        id: kitchen-cleanup
+        run: kitchen destroy bake-centos-7
