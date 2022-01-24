@@ -12,8 +12,6 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       KITCHEN_YAML: .kitchen.ec2.yml
       KITCHEN_TEST_SUBNET_ID: subnet-447b2523
     name: Kitchen Test
