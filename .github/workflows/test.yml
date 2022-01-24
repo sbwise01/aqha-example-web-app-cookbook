@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  kitchen-tests:
+  kitchen-bake-only:
     container:
       image: cincproject/workstation:latest
     runs-on: [self-hosted, linux]
@@ -14,7 +14,7 @@ jobs:
     env:
       KITCHEN_YAML: .kitchen.ec2.yml
       KITCHEN_TEST_SUBNET_ID: subnet-447b2523
-    name: Kitchen Test
+    name: Kitchen Bake Test
     steps:
       - uses: actions/checkout@v2
       - name: Run Kitchen test
@@ -23,3 +23,21 @@ jobs:
       - name: KP
         id: kitchen-cleanup
         run: kitchen destroy bake-centos-7
+  kitchen-full:
+    container:
+      image: cincproject/workstation:latest
+    runs-on: [self-hosted, linux]
+    strategy:
+      fail-fast: false
+    env:
+      KITCHEN_YAML: .kitchen.ec2.yml
+      KITCHEN_TEST_SUBNET_ID: subnet-447b2523
+    name: Kitchen Full Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Kitchen test
+        id: kitchen-test
+        run: kitchen verify full-centos-7
+      - name: KP
+        id: kitchen-cleanup
+        run: kitchen destroy full-centos-7
