@@ -12,7 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [bake-centos-7, full-centos-7]
+        platform: [centos-7, rhel-7]
+        suite: [bake, full]
     env:
       KITCHEN_YAML: .kitchen.ec2.yml
       KITCHEN_TEST_SUBNET_ID: subnet-447b2523
@@ -21,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run Kitchen test
         id: kitchen-test
-        run: kitchen verify ${{ matrix.platform }}
+        run: kitchen verify ${{ matrix.suite }}-${{ matrix.platform }}
       - name: KP
         id: kitchen-cleanup
-        run: kitchen destroy ${{ matrix.platform }}
+        run: kitchen destroy ${{ matrix.suite }}-${{ matrix.platform }}
