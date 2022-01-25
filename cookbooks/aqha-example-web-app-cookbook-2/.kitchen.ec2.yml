@@ -1,0 +1,44 @@
+---
+driver:
+  name: ec2
+  region: us-east-1
+  subnet_id: <%= ENV['KITCHEN_TEST_SUBNET_ID'] %>
+  require_chef_omnibus: true
+  instance_type: t2.small
+  associate_public_ip: true
+  block_device_mappings:
+  - device_name: /dev/sda1
+    ebs:
+      volume_size: 20
+      volume_type: gp2
+      delete_on_termination: true
+
+provisioner:
+  name: chef_zero
+  product_name: cinc
+  download_url: https://omnitruck.cinc.sh/install.sh
+  product_version: 16
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7
+  - name: rhel-7
+
+suites:
+  - name: bake
+    run_list:
+      - role[bake]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+  - name: full
+    run_list:
+      - role[full]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+        - test/integration/full
+    attributes:

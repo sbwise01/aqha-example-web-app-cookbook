@@ -1,0 +1,7 @@
+DEPENDENCIES
+  aqha-example-web-app
+    path: .
+    metadata: true
+
+GRAPH
+  aqha-example-web-app (0.1.0)
