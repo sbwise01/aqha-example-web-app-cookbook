@@ -5,39 +5,23 @@ on:
     branches: [master]
 
 jobs:
-  kitchen-bake-only:
+  kitchen-test:
     container:
       image: cincproject/workstation:latest
     runs-on: [self-hosted, linux]
     strategy:
       fail-fast: false
+      matrix:
+        platform: [bake-centos-7, full-centos-7]
     env:
       KITCHEN_YAML: .kitchen.ec2.yml
       KITCHEN_TEST_SUBNET_ID: subnet-447b2523
-    name: Kitchen Bake Test
+    name: Kitchen Test
     steps:
       - uses: actions/checkout@v2
       - name: Run Kitchen test
         id: kitchen-test
-        run: kitchen verify bake-centos-7
+        run: kitchen verify ${{ matrix.platform }}
       - name: KP
         id: kitchen-cleanup
-        run: kitchen destroy bake-centos-7
-  kitchen-full:
-    container:
-      image: cincproject/workstation:latest
-    runs-on: [self-hosted, linux]
-    strategy:
-      fail-fast: false
-    env:
-      KITCHEN_YAML: .kitchen.ec2.yml
-      KITCHEN_TEST_SUBNET_ID: subnet-447b2523
-    name: Kitchen Full Test
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run Kitchen test
-        id: kitchen-test
-        run: kitchen verify full-centos-7
-      - name: KP
-        id: kitchen-cleanup
-        run: kitchen destroy full-centos-7
+        run: kitchen destroy ${{ matrix.platform }}
